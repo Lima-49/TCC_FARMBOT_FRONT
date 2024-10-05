@@ -1,0 +1,1 @@
+icone_img = r'assets\Icone b.png'
