@@ -17,7 +17,8 @@ class LoginController:
             
             valida_senha = self.verificar_senha(login_obj.senha, self.client.senha_login)
             if valida_senha:
-                st.switch_page(r'pages\home.py')
+                st.session_state['client'] = self.client
+                st.switch_page(r'pages\home_page.py')
             else:
                 st.toast("E-mail ou senha incorretos", icon="❌")
         else:

@@ -1,9 +1,8 @@
 import requests
-import json
-
+from config import reqUrl
 class LoginRepository:
     def __init__(self) -> None:
-        self.reqUrl = "http://127.0.0.1:5000"
+        self.reqUrl = reqUrl
         
     def autentificar_login(self, client_email):
         headers = {"Content-Type": "application/json"}

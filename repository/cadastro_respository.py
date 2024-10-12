@@ -1,10 +1,11 @@
 # from app.app import apiUrl
 import requests
 import json
+from config import reqUrl
 
 class CadastroRepository:
     def __init__(self) -> None:
-        self.reqUrl = "http://127.0.0.1:5000"
+        self.reqUrl = reqUrl
     
     def cadastro_aluno(self, client):
         
