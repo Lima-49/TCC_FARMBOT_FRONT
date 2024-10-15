@@ -1,29 +1,23 @@
 from repository.login_repository import LoginRepository
 from models.client_model import Cliente
 import streamlit as st
-import bcrypt
 
 class LoginController:
     def __init__(self):
         self.repository = LoginRepository()
         self.client = Cliente()
-        
+
     def autentificar_login(self, login_obj):
-        client_email = login_obj.email
-        data = self.repository.autentificar_login(client_email)
+        data = self.repository.autentificar_login(login_obj)
+        status_code = data.status_code
+        data_obj = data.json()
         
-        if data:
-            self.client = self.client.from_dict(data)
+        if status_code == 200:
+            self.client = self.client.from_dict(data_obj)
             
-            valida_senha = self.verificar_senha(login_obj.senha, self.client.senha_login)
-            if valida_senha:
+            if self.client:
                 st.session_state['client'] = self.client
                 st.switch_page(r'pages\home_page.py')
-            else:
-                st.toast("E-mail ou senha incorretos", icon="❌")
         else:
-            st.toast(data, icon="❌")
+            st.toast(data_obj['message'], icon="❌")
 
-    def verificar_senha(self, senha_fornecida, senha_hashed):
-        # Verifica se a senha fornecida corresponde ao hash
-        return bcrypt.checkpw(senha_fornecida.encode('utf-8'), senha_hashed.encode('utf-8'))

@@ -22,8 +22,6 @@ class LoginPage:
             self.login.email = st.text_input("E-mail *")
             self.login.senha = st.text_input("Senha *", type="password")
 
-            st.markdown("[Esqueci a senha](#)", unsafe_allow_html=True)
-
             if st.button("ENTRAR", type="primary", use_container_width=True):
                 self.controller.autentificar_login(self.login)
 

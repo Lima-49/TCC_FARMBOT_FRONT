@@ -11,11 +11,12 @@ class HomeController:
     def obtendo_arquivos_clientes(self):
         id_cliente = self.client.client_id
         data = self.clientes_arquivos_repository.obtendo_arquivos_clientes(id_cliente)
+        status_code = data.status_code
+        data_obj = data.json()
         
-        if data:
-            if data.response_code == 404:
-                st.toast(data.message, icon="❌")
-            else:
-                self.clientes_arquivos = self.clientes_arquivos.from_dict(data)
+        if status_code == 404:
+            self.clientes_arquivos = None
+        else:
+            self.clientes_arquivos = [self.clientes_arquivos.from_dict(item) for item in data_obj]
         
         

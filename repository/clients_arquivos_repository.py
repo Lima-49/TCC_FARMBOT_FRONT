@@ -20,10 +20,8 @@ class ClientesArquivosRepository:
         
         return response
     
-    def subindo_arquivo_no_bucket(self, id_client, file):
-        headers = {"Content-Type": "application/json"}
-        
-        response = requests.request('POST', self.reqUrl+f"/files{str(id_client)}", files=file, headers=headers, timeout=30)
+    def subindo_arquivo_no_bucket(self, id_client, files):
+        response = requests.request('POST', self.reqUrl+f"/files/{str(id_client)}/upload-file", files=files, timeout=30)
         
         return response
     
