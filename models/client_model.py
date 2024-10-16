@@ -1,6 +1,6 @@
 class Cliente:
-    def __init__(self, nome=None, sobrenome=None, data_nascimento=None, cpf=None, email=None, client_id=None, senha_login=None):
-        self.client_id = client_id
+    def __init__(self, nome=None, sobrenome=None, data_nascimento=None, cpf=None, email=None, id_cliente=None, senha_login=None):
+        self.id_client = id_cliente
         self.nome = nome
         self.sobrenome = sobrenome
         self.data_nascimento = data_nascimento
@@ -10,7 +10,7 @@ class Cliente:
         
     def from_dict(self, data):
         return Cliente(
-            client_id=data.get('client_id'),
+            id_cliente=data.get('id_cliente'),
             nome=data.get('nome'),
             sobrenome=data.get('sobrenome'),
             data_nascimento=data.get('data_nascimento'),

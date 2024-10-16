@@ -17,17 +17,18 @@ class ClientesArquivosRepository:
         })
         
         response = requests.request("POST", self.reqUrl+"/files", data=payload, headers=headers, timeout=30)
-        
         return response
     
     def subindo_arquivo_no_bucket(self, id_client, files):
         response = requests.request('POST', self.reqUrl+f"/files/{str(id_client)}/upload-file", files=files, timeout=30)
-        
         return response
     
     def obtendo_arquivos_clientes(self, id_client):
         headers = {"Content-Type": "application/json"}
-        
         response = requests.request("GET", self.reqUrl+f"/files/{str(id_client)}/files", headers=headers, timeout=30)
-        
         return response
+    
+    def removendo_arquivo_do_bucket(self, id_arquivo):
+        headers = {"Content-Type": "application/json"}
+        reponse = requests.request('DELETE', self.reqUrl+f'/files/{id_arquivo}', headers=headers, timeout=30)
+        return reponse

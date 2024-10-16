@@ -11,8 +11,7 @@ class ConfiguracaoPage:
     
     @st.dialog("Upload de Arquivos")
     def upload_file(self, file):
-        
-        self.clientes_arquivos_model.id_cliente = self.controller.client.client_id
+        self.clientes_arquivos_model.id_cliente = self.controller.client.id_client
         self.clientes_arquivos_model.nome_arquivo = st.text_input("Nome do arquivo", value=file['file'][0])
         self.clientes_arquivos_model.descricao_arquivo = st.text_area("Descrição do arquivo")
         
@@ -45,8 +44,8 @@ class ConfiguracaoPage:
             self.upload_file(files)
             
         if "clientes_arquivos" in st.session_state:
-            df = pd.DataFrame(self.controller.clientes_arquivos)
-            st.dataframe(df)
+            df = self.controller.ajustando_tabela_de_dados()
+            st.data_editor(df, use_container_width=True, num_rows="fixed")
 
 config = ConfiguracaoPage()
 config.show()

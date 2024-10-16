@@ -9,7 +9,7 @@ class HomeController:
         self.client = st.session_state['client']
         
     def obtendo_arquivos_clientes(self):
-        id_cliente = self.client.client_id
+        id_cliente = self.client.id_client
         data = self.clientes_arquivos_repository.obtendo_arquivos_clientes(id_cliente)
         status_code = data.status_code
         data_obj = data.json()
