@@ -1,7 +1,8 @@
 import streamlit as st
-import style.login_style as style 
+import style.login_style as style
 from models.login_model import Login
 from script.login_script import LoginController
+
 
 class LoginPage:
     def __init__(self):
@@ -9,24 +10,36 @@ class LoginPage:
         self.icone_img = style.icone_img
         self.login = Login()
         self.controller = LoginController()
-        
+
     def show(self):
-        col1, col2 = st.columns(2)
+        st.write('#')
+        with st.container(border=True):
+            st.write('')
+            _, c, _ = st.columns(3, vertical_alignment='center')
+            with c:
+                st.image(self.icone_img, width=200)
+                st.write('##')
 
-        with col1:
-            st.image(self.background_img, use_column_width=True)
+            _, c2, _ = st.columns([0.1, 0.8, 0.1], vertical_alignment="top")
 
-        with col2:
-            st.image(self.icone_img, width=200)
+            with c2:
+                self.login.email = st.text_input("E-mail *")
+                self.login.senha = st.text_input(
+                    "Senha *", type="password", autocomplete='current-password')
 
-            self.login.email = st.text_input("E-mail *")
-            self.login.senha = st.text_input("Senha *", type="password")
+                st.write('###')
 
-            if st.button("ENTRAR", type="primary", use_container_width=True):
-                self.controller.autentificar_login(self.login)
+                b1, b2 = st.columns(2)
+                with b1:
+                    if st.button("ENTRAR", type="primary", use_container_width=True):
+                        self.controller.autentificar_login(self.login)
 
-            if st.button("CADASTRAR", type="secondary", use_container_width=True):
-                st.switch_page(r"pages\cadastro_page.py")
-                
+                with b2:
+                    if st.button("CADASTRAR", type="secondary", use_container_width=True):
+                        st.switch_page(r"pages\cadastro_page.py")
+
+                st.write('')
+
+
 login = LoginPage()
 login.show()
