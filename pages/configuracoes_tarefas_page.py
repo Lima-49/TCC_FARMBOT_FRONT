@@ -1,30 +1,17 @@
 import streamlit as st
 from script.configuracoes_tarefas_script import ConfiguracoesTarefasController
 from models.configuracoes_tarefas_model import ConfiguracaoTarefaModel
-
 class ConfiguracoesTarefas:
     def __init__(self) -> None:
         self.config_tarefa_model = ConfiguracaoTarefaModel()
         self.controller = ConfiguracoesTarefasController()
     
-    def config_orcamentos(self):
+    @st.dialog("Nova Configuração")
+    def config_orcamento_form(self):
         
-        ativo = True if self.controller.return_value_or_default('fl_ativo', False) == 1 else False
         self.config_tarefa_model.fl_ativo = st.checkbox("Ativar o serviço",
-                                                        key='orcamento_ativo',
-                                                        value=ativo)
+                                                        key='orcamento_ativo')
         if self.config_tarefa_model.fl_ativo:
-
-            self.config_tarefa_model.tipo_tarefa = 0
-            
-            self.config_tarefa_model.produto_descr = st.selectbox(
-                "Selecione um produto",
-                ("remedio_1", "remedio_2", "remedio_3"),
-                index=None,
-                placeholder="Produtos",
-                key='orcamento_produto'
-            )
-
             self.config_tarefa_model.fornecedor_descr = st.selectbox(
                 "Selecione o fornecedor desse produto",
                 ("fornecedor_1", "fornecedor_2", "fornecedor_3"),
@@ -33,7 +20,14 @@ class ConfiguracoesTarefas:
                 key='orcamento_fornecedor'
             )
             
-            self.config_tarefa_model.qtd_minina = st.text_input(
+            self.config_tarefa_model.produto_descr = st.selectbox(
+                "Selecione um produto",
+                ["remedio_1", "remedio_2", "remedio_3"],
+                placeholder="Produtos",
+                key='orcamento_produto',
+            )
+            
+            self.config_tarefa_model.qtd_minima = st.text_input(
                 'Quantidade minima de estoque do produto', 
                 key='orcamento_qtd_minima'
             )
@@ -45,14 +39,17 @@ class ConfiguracoesTarefas:
                 key='orcamento_execucao'
             )
             
-            st.button("SALVAR", use_container_width=True, key='orcamento_salvar')
+            if st.button("SALVAR", use_container_width=True, key='orcamento_salvar'):
+                with st.spinner("Salvando configuração..."):
+                    self.controller.salvar_configuracao(self.config_tarefa_model)
+                    st.session_state['configs_tarefas'] = self.config_tarefa_model
+                st.rerun()
 
-    def config_notificacoes_clientes(self):
+    @st.dialog("Nova Configuração")
+    def config_notificacao_cliente_form(self):
         self.config_tarefa_model.fl_ativo = st.checkbox("Ativar o serviço", key='notificacao_ativo')
         
         if self.config_tarefa_model.fl_ativo:
-            
-            self.config_tarefa_model.tipo_tarefa = 1
             
             self.config_tarefa_model.produto_desc = st.selectbox(
                 "Selecione um produto",
@@ -75,14 +72,17 @@ class ConfiguracoesTarefas:
                 key='notificacao_execucao'
             )
             
-            st.button("SALVAR", use_container_width=True, key='notificacao_salvar')
-        
-    def config_produtos_campanhas(self):
+            if st.button("SALVAR", use_container_width=True, key='notificacao_salvar'):
+                with st.spinner("Salvando configuração..."):
+                    self.controller.salvar_configuracao(self.config_tarefa_model)
+                    st.session_state['configs_tarefas'] = self.config_tarefa_model
+                st.rerun()
+
+    @st.dialog("Nova Configuração")
+    def config_produtos_campanhas_form(self):    
         self.config_tarefa_model.fl_ativo = st.checkbox("Ativar o serviço", key='produto_ativo')
         
         if self.config_tarefa_model.fl_ativo:
-
-            self.config_tarefa_model.tipo_tarefa = 2
             
             self.config_tarefa_model.fl_execucao = st.radio(
                 "Qual o perído de execução",
@@ -91,8 +91,47 @@ class ConfiguracoesTarefas:
                 key='produto_execucao'
             )
             
-            st.button("SALVAR", use_container_width=True, key='produto_salvar')
+            if st.button("SALVAR", use_container_width=True, key='produto_salvar'):
+                with st.spinner("Salvando configuração..."):
+                    self.controller.salvar_configuracao(self.config_tarefa_model)
+                    st.session_state['configs_tarefas'] = self.config_tarefa_model
+                st.rerun()
+            
+    def config_orcamentos(self):
+        
+        self.config_tarefa_model.tipo_tarefa = 0
+        
+        if st.button("Adicionar nova configuração", key='btn_config_orcamento'):
+            self.config_orcamento_form()
 
+        if st.session_state['configs_tarefas'] is not None:
+            df = self.controller.create_config_table_visualizatio(st.session_state['configs_tarefas'], self.config_tarefa_model.tipo_tarefa)
+            if not df.empty:
+                st.data_editor(df, num_rows="fixed", key='table_config_orcamento')
+            
+    def config_notificacoes_clientes(self):
+        self.config_tarefa_model.tipo_tarefa = 1
+        
+        if st.button("Adicionar nova configuração", key='btn_config_notificaca'):
+            self.config_notificacao_cliente_form()
+
+        if st.session_state['configs_tarefas'] is not None:
+            df = self.controller.create_config_table_visualizatio(st.session_state['configs_tarefas'], self.config_tarefa_model.tipo_tarefa)
+            if not df.empty:
+                st.data_editor(df, num_rows="fixed", key='table_config_notificacao')
+        
+    def config_produtos_campanhas(self):
+
+        self.config_tarefa_model.tipo_tarefa = 2
+            
+        if st.button("Adicionar nova configuração", key='btn_config_produtos_campanhs'):
+            self.config_produtos_campanhas_form()
+            
+        if st.session_state['configs_tarefas'] is not None:
+            df = self.controller.create_config_table_visualizatio(st.session_state['configs_tarefas'],self.config_tarefa_model.tipo_tarefa)
+            if not df.empty:
+                st.data_editor(df, num_rows="fixed", key='table_config_produtos')
+                
     def show(self):
         st.title("Configurações das Tarefas")
         

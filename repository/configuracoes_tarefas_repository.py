@@ -20,7 +20,7 @@ class ConfiguracoesTarefasRepository:
             "fl_execucao":configuracao_tarefa.fl_execucao
         })
         
-        response = requests.request("POST", self.reqUrl+'configuracao-tarefa', data=payload, headers=headers, timeout=30)
+        response = requests.request("POST", self.reqUrl+'/configuracao-tarefa', data=payload, headers=headers, timeout=30)
         return response
     
     def obtendo_configuracoes_por_cliente(self, id_cliente):
