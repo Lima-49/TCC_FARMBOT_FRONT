@@ -2,7 +2,6 @@ from repository.configuracoes_tarefas_repository import ConfiguracoesTarefasRepo
 from models.configuracoes_tarefas_model import ConfiguracaoTarefaModel
 import streamlit as st
 import pandas as pd
-import json
 
 class ConfiguracoesTarefasController:
     def __init__(self):
@@ -11,6 +10,8 @@ class ConfiguracoesTarefasController:
         self.repo = ConfiguracoesTarefasRepository()
         self.config_tarefas_model = ConfiguracaoTarefaModel()
         self.config_tarefas = self.buscar_configuracoes_por_clientes()
+        self.lista_fornecedores = self.obtendo_lista('1', 'EMPRESA')
+        self.lista_produtos = self.obtendo_lista('2', 'PRODUTO COMPRADO')
     
     def return_value_or_default(self, field, default_value):
         return self.config_tarefas[field] if self.config_tarefas is not None else default_value
@@ -62,7 +63,21 @@ class ConfiguracoesTarefasController:
             item = self.config_tarefas_model.to_dict(item)
             df = pd.DataFrame(item, index=[0])
             df_list.append(df)
-            
-        df_final = pd.concat(df_list).reset_index(drop=True)
-        return df_final
+
+        if len(df_list)>0:
+            df_final = pd.concat(df_list).reset_index(drop=True)
+            return df_final
+        else:
+            return pd.DataFrame()
           
+    def obtendo_lista(self, tipo_arquivo, coluna_lista):
+        data = self.repo.obtendo_lista_de_fornecedores(self.client.id_client, tipo_arquivo, coluna_lista)
+        status_code = data.status_code
+        
+        if status_code == 200:
+            data_obj = data.json()
+            return data_obj
+        else:
+            return []
+            
+    

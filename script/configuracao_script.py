@@ -22,6 +22,13 @@ class ConfiguracaoController:
             return None
     
     def adicionando_arquivo_por_cliente(self, clientes_arquivos):
+        if clientes_arquivos.tipo_arquivo == 'CLIENTES':
+            clientes_arquivos.tipo_arquivo = 0
+        elif clientes_arquivos.tipo_arquivo == 'FORNECEDORES':
+            clientes_arquivos.tipo_arquivo = 1
+        elif clientes_arquivos.tipo_arquivo == 'VENDAS':
+            clientes_arquivos.tipo_arquivo = 2
+    
         data = self.repository.adicionando_arquivo_por_cliente(clientes_arquivos)
         status_code = data.status_code
         data_obj = data.json()

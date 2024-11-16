@@ -11,6 +11,7 @@ class ClientesArquivosRepository:
         
         payload = json.dumps({
             "id_cliente": cliente_arquivo.id_cliente,
+            "tipo_arquivo": cliente_arquivo.tipo_arquivo,
             "descricao_arquivo": cliente_arquivo.descricao_arquivo,
             "url_bucket": cliente_arquivo.url_bucket,
             "nome_arquivo": cliente_arquivo.nome_arquivo

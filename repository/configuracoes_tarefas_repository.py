@@ -26,4 +26,9 @@ class ConfiguracoesTarefasRepository:
     def obtendo_configuracoes_por_cliente(self, id_cliente):
         headers = {"Content-Type": "application/json"}
         response = requests.request('GET', self.reqUrl+f'/configuracao-tarefa/{id_cliente}', headers=headers, timeout=30)
-        return response                
+        return response
+
+    def obtendo_lista_de_fornecedores(self, id_cliente, tipo_arquivo, coluna_lista):
+        headers = {"Content-Type": "application/json"}
+        response = requests.request('GET', self.reqUrl+f'/configuracao-tarefa/lista-fornecedores/{id_cliente}/{tipo_arquivo}/{coluna_lista}', headers=headers, timeout=30)
+        return response              

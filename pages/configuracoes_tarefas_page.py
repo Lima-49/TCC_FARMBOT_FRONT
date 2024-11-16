@@ -8,25 +8,26 @@ class ConfiguracoesTarefas:
     
     @st.dialog("Nova Configuração")
     def config_orcamento_form(self):
-        
+        self.config_tarefa_model.tipo_tarefa = 0
         self.config_tarefa_model.fl_ativo = st.checkbox("Ativar o serviço",
                                                         key='orcamento_ativo')
         if self.config_tarefa_model.fl_ativo:
+            
+            self.config_tarefa_model.produto_descr = st.selectbox(
+                "Selecione um produto",
+                self.controller.lista_produtos,
+                placeholder="Produtos",
+                key='orcamento_produto',
+            )
+
             self.config_tarefa_model.fornecedor_descr = st.selectbox(
                 "Selecione o fornecedor desse produto",
-                ("fornecedor_1", "fornecedor_2", "fornecedor_3"),
+                self.controller.lista_fornecedores,
                 index=None,
                 placeholder="Fornecedores",
                 key='orcamento_fornecedor'
             )
-            
-            self.config_tarefa_model.produto_descr = st.selectbox(
-                "Selecione um produto",
-                ["remedio_1", "remedio_2", "remedio_3"],
-                placeholder="Produtos",
-                key='orcamento_produto',
-            )
-            
+                        
             self.config_tarefa_model.qtd_minima = st.text_input(
                 'Quantidade minima de estoque do produto', 
                 key='orcamento_qtd_minima'
