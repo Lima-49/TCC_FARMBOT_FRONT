@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 from script.configuracao_script import ConfiguracaoController
 from models.client_arquivo_model import ClientArquivos
 

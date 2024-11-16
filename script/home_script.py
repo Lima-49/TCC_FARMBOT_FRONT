@@ -18,5 +18,7 @@ class HomeController:
             self.clientes_arquivos = None
         else:
             self.clientes_arquivos = [self.clientes_arquivos.from_dict(item) for item in data_obj]
+            
+        st.session_state['clientes_arquivos'] = self.clientes_arquivos
         
         
