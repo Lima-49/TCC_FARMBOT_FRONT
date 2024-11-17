@@ -54,7 +54,7 @@ class ConfiguracoesTarefas:
             
             self.config_tarefa_model.produto_desc = st.selectbox(
                 "Selecione um produto",
-                ("remedio_1", "remedio_2", "remedio_3"),
+                self.controller.lista_produtos,
                 index=None,
                 placeholder="Produtos",
                 key='notificacao_produto'

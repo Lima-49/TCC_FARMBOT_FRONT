@@ -13,7 +13,7 @@ class ConfiguracaoPage:
         self.clientes_arquivos_model.id_cliente = self.controller.client.id_client
         self.clientes_arquivos_model.tipo_arquivo = st.selectbox(
                 "Selecione o tipo do arquivo",
-                ("CLIENTES", "FORNECEDORES", "VENDAS"),
+                ("CLIENTES", "FORNECEDORES", "VENDAS", "ESTOQUE"),
                 index=None,
                 placeholder="Tipo de dados")
         self.clientes_arquivos_model.nome_arquivo = st.text_input("Nome do arquivo", value=file['file'][0])

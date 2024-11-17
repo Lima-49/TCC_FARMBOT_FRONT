@@ -12,7 +12,8 @@ class ClientArquivos:
         obj = {
             0: 'CLIENTES',
             1: 'FORNECEDORES',
-            2: 'VENDAS'
+            2: 'VENDAS',
+            3: 'ESTOQUE'
         }
         
         return obj[tipo]

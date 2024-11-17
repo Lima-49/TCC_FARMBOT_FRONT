@@ -28,6 +28,8 @@ class ConfiguracaoController:
             clientes_arquivos.tipo_arquivo = 1
         elif clientes_arquivos.tipo_arquivo == 'VENDAS':
             clientes_arquivos.tipo_arquivo = 2
+        elif clientes_arquivos.tipo_arquivo == 'ESTOQUE':
+            clientes_arquivos.tipo_arquivo = 3
     
         data = self.repository.adicionando_arquivo_por_cliente(clientes_arquivos)
         status_code = data.status_code
