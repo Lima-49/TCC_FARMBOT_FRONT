@@ -33,3 +33,10 @@ class ClientesArquivosRepository:
         headers = {"Content-Type": "application/json"}
         reponse = requests.request('DELETE', self.reqUrl+f'/files/{id_arquivo}', headers=headers, timeout=30)
         return reponse
+    
+    def baixando_arquivos_do_bucket(self, id_client, tipo_arquivo):
+        headers = {"Content-Type": "application/json"}
+        response = requests.request('GET', self.reqUrl+f'/files/download_file/{id_client}/{tipo_arquivo}',
+                                    headers=headers,
+                                    timeout=30)
+        return response

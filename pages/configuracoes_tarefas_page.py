@@ -49,10 +49,10 @@ class ConfiguracoesTarefas:
     @st.dialog("Nova Configuração")
     def config_notificacao_cliente_form(self):
         self.config_tarefa_model.fl_ativo = st.checkbox("Ativar o serviço", key='notificacao_ativo')
-        
+        self.config_tarefa_model.tipo_tarefa = 1
         if self.config_tarefa_model.fl_ativo:
             
-            self.config_tarefa_model.produto_desc = st.selectbox(
+            self.config_tarefa_model.produto_descr = st.selectbox(
                 "Selecione um produto",
                 self.controller.lista_produtos,
                 index=None,
@@ -60,7 +60,7 @@ class ConfiguracoesTarefas:
                 key='notificacao_produto'
             )
             
-            self.config_tarefa_model.oferta_desc = st.text_area(
+            self.config_tarefa_model.oferta_descr = st.text_area(
                 'Descrição da Oferta', 
                 help="Escreva uma breve mensagem informando o tipo de oferta que está sendo oferecida",
                 key='notificacao_oferta_desc'
@@ -82,7 +82,7 @@ class ConfiguracoesTarefas:
     @st.dialog("Nova Configuração")
     def config_produtos_campanhas_form(self):    
         self.config_tarefa_model.fl_ativo = st.checkbox("Ativar o serviço", key='produto_ativo')
-        
+        self.config_tarefa_model.tipo_tarefa = 2
         if self.config_tarefa_model.fl_ativo:
             
             self.config_tarefa_model.fl_execucao = st.radio(
